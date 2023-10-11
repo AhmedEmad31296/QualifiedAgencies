@@ -1,4 +1,4 @@
-﻿@inject Abp.Runtime.Session.IAbpSession _AbpSession
+﻿@using QualifiedAgencies.Common;
 <script>
     $(document).ready(function () {
         getAll();
@@ -33,16 +33,39 @@
                     "type": "POST",
                     "dataType": "json",
                     "data": {
-                        category: getCategoryFromUrl
+                        activityTypeId: getActivityTypeIdFromUrl()
                     },
                 },
                 "columns": [
                     { "data": "name", "name": "Name", "autoWidth": true, },
                     { "data": "activity", "name": "Activity", "autoWidth": true },
+                    {
+                        "data": "category",
+                        "name": "Category",
+                        "autoWidth": true,
+                        "render": function (data, type, row) {
+                            if (data >= 0) {
+                                switch (data) {
+                                    case 0:
+                                        return '@L("QualifiedAgencies."+nameof(Category.Category_A))';
+                                    case 1:
+                                        return '@L("QualifiedAgencies."+nameof(Category.Category_B))';
+                                    case 2:
+                                        return '@L("QualifiedAgencies."+nameof(Category.Category_C))';
+                                    case 3:
+                                        return '@L("QualifiedAgencies."+nameof(Category.HouseOfExperience))';
+                                    case 4:
+                                        return '@L("QualifiedAgencies."+nameof(Category.ResearchCenter))';
+                                    default:
+                                        return '';
+                                }
+                            }
+                            return data;
+                        }
+                    },
                     { "data": "phoneNumber", "name": "PhoneNumber", "autoWidth": true },
                     { "data": "email", "name": "Email", "autoWidth": true },
                     { "data": "fax", "name": "Fax", "autoWidth": true },
-                    { "data": "activityType", "name": "ActivityType", "autoWidth": true },
                     { "data": "area", "name": "Area", "autoWidth": true },
                     {
                         "data": "deletionTime",
@@ -50,16 +73,11 @@
                         "autoWidth": true,
                         "render": function (data, type, row) {
                             if (data) {
-                                // Format the deletionTime to a short date format
                                 var deletionTime = new Date(data);
                                 var options = { year: 'numeric', month: 'long', day: 'numeric' };
                                 var formattedDate = deletionTime.toLocaleDateString('ar-eg', options);
-
-                                // Return the formatted date for display
                                 return formattedDate;
                             }
-
-                            // For other types or data, return the original data
                             return data;
                         }
                     },
@@ -67,22 +85,22 @@
                         "visible": '@User.Identity.IsAuthenticated' == 'True' ? true : false,
                         "render": function (data, type, row) {
                             var deleteBtn = '', editBtn = '';
-    @if (User.Identity.IsAuthenticated)
-    {
-        @:editBtn = '<a href="#" class="success" onclick="editItem(' + row.id + ')"><i class="ft-edit font-medium-3"></i></a>';
-        @:deleteBtn = '<a href="#" class="danger" onclick="deleteItem(' + row.id + ')"><i class="ft-trash font-medium-3"></i></a>'
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                @:editBtn = '<a href="#" class="success" onclick="editItem(' + row.id + ')"><i class="ft-edit font-medium-3"></i></a>';
+                                @:deleteBtn = '<a href="#" class="danger" onclick="deleteItem(' + row.id + ')"><i class="ft-trash font-medium-3"></i></a>'
+
+                            }
+                              return deleteBtn + ' ' + editBtn;
+                              },
+                                "orderable": false,
+                           }
+                        ],
+                     });
+                else
+                    dt.ajax.reload(null, false);
 
     }
-                                                    return deleteBtn + ' ' + editBtn;
-                        },
-                        "orderable": false,
-                    }
-                ],
-            });
-        else
-            dt.ajax.reload(null, false);
-
-        }
 
     function deleteItem(id) {
         Swal.fire({
@@ -130,16 +148,11 @@
         e.preventDefault();
         var _$form = $(this);
         var formData = $(this).serializeArray();
-
-        // Retrieve the deletionTime from the input element
-        var deletionTime = formData.find(x => x.name === 'deletionTime').value();
-
-        // Format the date to match the format expected by the date input (YYYY-MM-DD)
-        var formattedDeletionTime = deletionTime ? new Date(deletionTime).toISOString().split('T')[0] : null;
-
-        // Add the formatted deletionTime to the formData
-        formData.push({ name: "deletionTime", value: formattedDeletionTime });
-
+        var deletionTimeEntry = formData.find(x => x.name === 'deletionTime');
+        if (deletionTimeEntry && deletionTimeEntry.value) {
+            var parsedDate = new Date(deletionTimeEntry.value);
+            deletionTimeEntry.value = parsedDate.toISOString();
+        }
         $.ajax({
             type: "POST",
             url: "@Url.Action("Create","Entities")",
@@ -165,8 +178,6 @@
             var parsedDate = new Date(deletionTimeEntry.value);
             deletionTimeEntry.value = parsedDate.toISOString();
         }
-        console.log('Updated formData:', formData);
-        //formData.push({ name: "deletionTime", value: parsedDate });
         $.ajax({
             type: "POST",
             url: "@Url.Action("Update","Entities")",
@@ -183,9 +194,9 @@
         });
     }
 
-    function getCategoryFromUrl() {
+    function getActivityTypeIdFromUrl() {
         const urlParams = new URLSearchParams(window.location.search);
-        const categoryParam = urlParams.get('category');
-        return categoryParam ? parseInt(categoryParam) : null;
+        const activityTypeIdParam = urlParams.get('activityTypeId');
+        return activityTypeIdParam ? parseInt(activityTypeIdParam) : null;
     }
 </script>

@@ -1,5 +1,9 @@
 ﻿@using QualifiedAgencies.Common;
 @{
+    @inject QualifiedAgencies.Lookups.ILookupsAppService _ILookupsAppService
+}
+@{
+    var activityTypes =  _ILookupsAppService.GetActivityTypes();
     Category[] categories = (Category[])Enum.GetValues(typeof(Category));
     int categoriesLength = categories.Length;
 }
@@ -25,20 +29,21 @@
                     </a>
                     <ul class="menu-content">
                         <li>
-                            <a asp-controller="Entities" asp-action="Index" asp-route-category="">
+                            <a asp-controller="Entities" asp-action="Index" asp-route-activityTypeId="">
                                 <i class="ft-arrow-right submenu-icon"></i>
                                 <span class="menu-item">@L("All")</span>
                             </a>
                         </li>
-                        @for (int i = 0; i < categoriesLength; i++)
+                        @foreach (var activityType in activityTypes)
                         {
                             <li>
-                                <a asp-controller="Entities" asp-action="Index" asp-route-category="@i">
+                                <a asp-controller="Entities" asp-action="Index" asp-route-activityTypeId="@activityType.Id">
                                     <i class="ft-arrow-right submenu-icon"></i>
-                                    <span class="menu-item">@L("QualifiedAgencies." + ((Category)i).ToString())</span>
+                                    <span class="menu-item">@activityType.Name</span>
                                 </a>
                             </li>
                         }
+
                     </ul>
                 </li>
             </ul>

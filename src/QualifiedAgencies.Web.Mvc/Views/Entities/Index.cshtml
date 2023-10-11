@@ -1,18 +1,17 @@
-﻿@using Newtonsoft.Json;
-@using QualifiedAgencies.Common;
-@using QualifiedAgencies.Entities.Dto;
+﻿@{
+    @inject QualifiedAgencies.Lookups.ILookupsAppService _ILookupsAppService;
+    long? activityTypeId = ViewData["ActivityTypeId"] as long?;
+    string activityTypeName = activityTypeId != null ? _ILookupsAppService.GetActivityTypeName(activityTypeId.Value) : L("All");
 
-@{
-    Category? category = ViewData["category"] as Category?;
 }
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <h4 class="card-title">
-                    @L("QualifiedAgencies.List") - @(category.HasValue ? L("QualifiedAgencies." + ((Category)ViewData["category"]).ToString()) : L("All"))
+                    @L("QualifiedAgencies.List") - @activityTypeName
                 </h4>
-                @if (User.Identity.IsAuthenticated && category.HasValue)
+                @if (User.Identity.IsAuthenticated && activityTypeId.HasValue)
                 {
                     <a href="javascript:;" data-toggle="modal" data-target="#EntityCreateModal" class="btn btn-success bg-light-success mb-1">
                         <i class="fa fa-plus-square"></i>
@@ -27,11 +26,11 @@
                             <tr>
                                 <th>@L("Name")</th>
                                 <th>@L("QualifiedAgencies.Activity")</th>
+                                <th>@L("QualifiedAgencies.Category")</th>
                                 <th>@L("PhoneNumber")</th>
                                 <th>@L("EmailAddress")</th>
                                 <th>@L("Fax")</th>
                                 <th>@L("QualifiedAgencies.Area")</th>
-                                <th>@L("QualifiedAgencies.ActivityType")</th>
                                 <th>@L("ExpiryDate")</th>
                                 @if (User.Identity.IsAuthenticated)
                                 {
@@ -59,6 +58,6 @@
 </div>
 @section scripts
     {
-   
+
     <partial name="_Script" />
 }

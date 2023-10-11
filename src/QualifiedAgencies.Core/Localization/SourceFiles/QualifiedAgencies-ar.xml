@@ -198,8 +198,11 @@
 	  <text name="QualifiedAgencies.Area" value="المنطقة" />
 	  <text name="QualifiedAgencies.Activity" value="النشاط" />
 	  <text name="QualifiedAgencies.ActivityType" value="نوع النشاط" />
+	  <text name="QualifiedAgencies.Category" value="التصنيف" />
 	  <text name="QualifiedAgencies.CreateNewEntity" value="إنشاء جهة مؤهلة جديدة" />
 	  <text name="QualifiedAgencies.EditEntity" value="تعديل الجهة المؤهلة" />
+	  <text name="QualifiedAgencies.QualifiedAgency.IsAlreadyExisting" value="الجهة المؤهلة موجودة من قبل" />
+	  <text name="QualifiedAgencies.QualifiedAgency.IsNotExisting" value="الجهة المؤهلة غير موجودة من قبل" />
 
 	  <!--QualifiedAgenciesStatistics-->
 	  <text name="QualifiedAgencies.Statistics.Categories" value="إحصائيات التصنيفات" />
@@ -211,8 +214,6 @@
 	  <text name="QualifiedAgencies.Category_C" value="فئة ج" />
 	  <text name="QualifiedAgencies.HouseOfExperience" value="بيت الخبرة" />
 	  <text name="QualifiedAgencies.ResearchCenter" value="مركز أبحاث" />
-	  <text name="QualifiedAgencies.QualifiedAgency.IsAlreadyExisting" value="الجهة المؤهلة موجودة من قبل" />
-	  <text name="QualifiedAgencies.QualifiedAgency.IsNotExisting" value="الجهة المؤهلة غير موجودة من قبل" />
-	  
+	 
   </texts>
 </localizationDictionary>

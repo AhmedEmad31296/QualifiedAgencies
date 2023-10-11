@@ -198,8 +198,11 @@
 	  <text name="QualifiedAgencies.Area" value="Area" />
 	  <text name="QualifiedAgencies.Activity" value="Activity" />
 	  <text name="QualifiedAgencies.ActivityType" value="Activity Type" />
+	  <text name="QualifiedAgencies.Category" value="Category" />
 	  <text name="QualifiedAgencies.CreateNewEntity" value="Create New Entity" />
 	  <text name="QualifiedAgencies.EditEntity" value="Edit Entity" />
+	  <text name="QualifiedAgencies.QualifiedAgency.IsAlreadyExisting" value="Qualified Agency Is Already Existing" />
+	  <text name="QualifiedAgencies.QualifiedAgency.IsNotExisting" value="Qualified Agency Is Not Existing" />
 
 	  <!--QualifiedAgenciesStatistics-->
 	  <text name="QualifiedAgencies.Statistics.Categories" value="Categories Statistics" />
@@ -211,8 +214,6 @@
 	  <text name="QualifiedAgencies.Category_C" value="Category C" />
 	  <text name="QualifiedAgencies.HouseOfExperience" value="House Of Experience" />
 	  <text name="QualifiedAgencies.ResearchCenter" value="Research Center" />
-	  <text name="QualifiedAgencies.QualifiedAgency.IsAlreadyExisting" value="Qualified Agency Is Already Existing" />
-	  <text name="QualifiedAgencies.QualifiedAgency.IsNotExisting" value="Qualified Agency Is Not Existing" />
-
+	 
   </texts>
 </localizationDictionary>

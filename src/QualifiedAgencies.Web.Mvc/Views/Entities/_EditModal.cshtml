@@ -1,5 +1,4 @@
-﻿@using QualifiedAgencies.Common;
-@using QualifiedAgencies.Entities.Dto;
+﻿@using QualifiedAgencies.Entities.Dto;
 @model GetFullInfoEligibleEntityDto
 
 <div class="modal-header">
@@ -13,7 +12,7 @@
         <input type="hidden" name="Id" value="@Model.Id" />
         <fieldset class="form-group floating-label-form-group">
             <label for="name">@L("Name")</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="@L("Name")" value="@Model.Name" required maxlength="32" minlength="2">
+            <input type="text" class="form-control" id="name" name="name" placeholder="@L("Name")" value="@Model.Name" required minlength="2">
         </fieldset>
         <fieldset class="form-group floating-label-form-group">
             <label for="phoneNumber">@L("PhoneNumber")</label>
@@ -31,14 +30,14 @@
         <fieldset class="form-group floating-label-form-group">
             <label for="activity">@L("QualifiedAgencies.Activity")</label>
             <div class="form-group">
-                <select class="form-control" id="activity" name="ActivityId" asp-for="ActivityId" asp-items="@(ViewData["Activities"] as SelectList)" required>
+                <select class="form-control" id="activity" name="activityId" asp-for="ActivityId" asp-items="@(ViewData["Activities"] as SelectList)" required>
                 </select>
             </div>
         </fieldset>
         <fieldset class="form-group floating-label-form-group">
-            <label for="activityType">@L("QualifiedAgencies.ActivityType")</label>
+            <label for="category">@L("QualifiedAgencies.Category")</label>
             <div class="form-group">
-                <select class="form-control" id="activityType" name="ActivityTypeId" asp-for="ActivityTypeId" asp-items="@(ViewData["ActivityTypes"] as SelectList)" required>
+                <select class="form-control" id="category" name="category" asp-for="Category" asp-items="@(ViewData["Categories"] as SelectList)" required>
                 </select>
             </div>
         </fieldset>

@@ -41,8 +41,7 @@ namespace QualifiedAgencies.Entities
             await SetDeleteAfterExpirationDate();
 
             IQueryable<EligibleEntity> query = _EligibleEntityRepository.GetAll().Where(e => !e.IsDeleted)
-
-                .WhereIf(input.Category.HasValue, c => c.Category == (Category)input.Category)
+                .WhereIf(input.ActivityTypeId.HasValue, c => c.ActivityTypeId == input.ActivityTypeId)
                 ;
 
             int totalCount = await query.CountAsync();
@@ -53,7 +52,6 @@ namespace QualifiedAgencies.Entities
                                                                          b.Email.ToLower().Contains(input.SearchTerm) ||
                                                                          b.Fax.ToLower().Contains(input.SearchTerm) ||
                                                                          b.Activity.Name.ToLower().Contains(input.SearchTerm) ||
-                                                                         b.ActivityType.Name.ToLower().Contains(input.SearchTerm) ||
                                                                          b.Area.Name.ToLower().Contains(input.SearchTerm))
                 ;
 
@@ -67,7 +65,6 @@ namespace QualifiedAgencies.Entities
             }
 
             // Pagination
-
             List<EligibleEntityPagedDto> eligibleEntities = await query
                 .Select(b => new EligibleEntityPagedDto
                 {
@@ -76,7 +73,7 @@ namespace QualifiedAgencies.Entities
                     PhoneNumber = b.PhoneNumber,
                     Email = b.Email,
                     Activity = b.Activity.Name,
-                    ActivityType = b.ActivityType.Name,
+                    Category = b.Category,
                     Area = b.Area.Name,
                     Fax = b.Fax,
                     DeletionTime = b.DeletionTime
@@ -95,6 +92,7 @@ namespace QualifiedAgencies.Entities
             };
 
         }
+
         [AbpAuthorize]
         public async Task<string> Insert(InsertEligibleEntityInput input)
         {
@@ -139,7 +137,7 @@ namespace QualifiedAgencies.Entities
             eligibleEntity.ActivityTypeId = input.ActivityTypeId;
             eligibleEntity.AreaId = input.AreaId;
             eligibleEntity.DeletionTime = input.DeletionTime;
-
+            eligibleEntity.Category = input.Category;
             await _EligibleEntityRepository.UpdateAsync(eligibleEntity);
 
             return L("UpdatedSuccessfully");
@@ -205,7 +203,6 @@ namespace QualifiedAgencies.Entities
                 })
                 .OrderBy(c => c.Category)
                 .ToListAsync();
-
             return statistics;
         }
         async Task<List<GetActivityTypeStatisticsDto>> GetActivityTypesStatistics()
@@ -239,5 +236,6 @@ namespace QualifiedAgencies.Entities
                     await _EligibleEntityRepository.UpdateAsync(el);
                 }
         }
+        
     }
 }

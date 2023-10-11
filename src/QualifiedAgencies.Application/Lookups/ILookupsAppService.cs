@@ -12,8 +12,9 @@ namespace QualifiedAgencies.Lookups
 {
     public interface ILookupsAppService : IApplicationService
     {
-        Task<List<CustomLookupsDto>> GetActivityTypes();
         Task<List<CustomLookupsDto>> GetActivities();
         Task<List<CustomLookupsDto>> GetAreas();
+        List<CustomLookupsDto> GetActivityTypes();
+        string GetActivityTypeName(long activityTypeId);
     }
 }

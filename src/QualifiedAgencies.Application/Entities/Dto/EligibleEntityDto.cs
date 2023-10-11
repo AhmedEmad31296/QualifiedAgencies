@@ -15,7 +15,7 @@ namespace QualifiedAgencies.Entities.Dto
 {
     public class FilterEligibleEntityPagedInput : DatatableFilterInput
     {
-        public int? Category { get; set; }
+        public long? ActivityTypeId { get; set; }
 
     }
     public class EligibleEntityPagedDto : Entity<long>
@@ -26,7 +26,7 @@ namespace QualifiedAgencies.Entities.Dto
         public string Fax { get; set; }
         public string Email { get; set; }
         public string Area { get; set; }
-        public string ActivityType { get; set; }
+        public Category Category { get; set; }
         public DateTime? DeletionTime { get; set; }
     }
     public class InsertEligibleEntityInput
@@ -51,6 +51,7 @@ namespace QualifiedAgencies.Entities.Dto
         public long? AreaId { get; set; }
         public long? ActivityTypeId { get; set; }
         public DateTime? DeletionTime { get; set; }
+        public Category Category { get; set; }
     }
     public class GetFullInfoEligibleEntityDto : Entity<long>
     {

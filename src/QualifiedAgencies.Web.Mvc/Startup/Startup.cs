@@ -22,6 +22,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.WebEncoders;
 using Newtonsoft.Json.Serialization;
 using QualifiedAgencies.Web.Helpers;
+using QualifiedAgencies.Lookups;
+using Abp.Domain.Uow;
 
 namespace QualifiedAgencies.Web.Startup
 {

@@ -36,16 +36,16 @@ namespace QualifiedAgencies.Web.Controllers
             _IEligibleEntityAppService = iEligibleEntityAppService;
             _ILookupsAppService = ILookupsAppService;
         }
-        public async Task<ActionResult> Index(Category? category)
+        public async Task<ActionResult> Index(long? activityTypeId)
         {
-            ViewData["category"] = category;
-            ViewData["Activities"] = new SelectList(await _ILookupsAppService.GetActivities(), "Id", "Name");
-            ViewData["ActivityTypes"] = new SelectList(await _ILookupsAppService.GetActivityTypes(), "Id", "Name");
-            ViewData["Areas"] = new SelectList(await _ILookupsAppService.GetAreas(), "Id", "Name");
+            ViewData["ActivityTypeId"] = activityTypeId;
+            await GetLookupSelectListItems();
             return View();
         }
+
+
         [HttpPost]
-        public async Task<JsonResult> GetPaged(int? category)
+        public async Task<JsonResult> GetPaged(long? activityTypeId)
         {
             int draw = Convert.ToInt32(HttpContext.Request.Form["draw"].FirstOrDefault());
             int start = Convert.ToInt32(HttpContext.Request.Form["start"].FirstOrDefault());
@@ -57,7 +57,7 @@ namespace QualifiedAgencies.Web.Controllers
 
             FilterEligibleEntityPagedInput input = new()
             {
-                Category = category,
+                ActivityTypeId = activityTypeId,
                 Draw = draw,
                 Page = start / length + 1,
                 PageSize = length,
@@ -79,17 +79,15 @@ namespace QualifiedAgencies.Web.Controllers
         [AbpAuthorize(PermissionNames.Pages_Users)]
         public async Task<ActionResult> EditModal(long id)
         {
+            await GetLookupSelectListItems();
             var result = await _IEligibleEntityAppService.Get(id);
-            ViewData["Activities"] = new SelectList(await _ILookupsAppService.GetActivities(), "Id", "Name");
-            ViewData["ActivityTypes"] = new SelectList(await _ILookupsAppService.GetActivityTypes(), "Id", "Name");
-            ViewData["Areas"] = new SelectList(await _ILookupsAppService.GetAreas(), "Id", "Name");
             return PartialView("_EditModal", result);
         }
         [HttpPost]
         [AbpAuthorize(PermissionNames.Pages_Users)]
         public async Task<JsonResult> Create(InsertEligibleEntityInput input)
         {
-           
+
             return Json(await _IEligibleEntityAppService.Insert(input));
         }
         [HttpPost]
@@ -98,5 +96,23 @@ namespace QualifiedAgencies.Web.Controllers
         {
             return Json(await _IEligibleEntityAppService.Update(input));
         }
+
+        private async Task GetLookupSelectListItems()
+        {
+            var activitySelectListItems = await _ILookupsAppService.GetActivities();
+            var areaSelectListItems = await _ILookupsAppService.GetAreas();
+            var categories = Enum.GetValues(typeof(Category)).Cast<Category>().ToList();
+
+            var categorySelectListItems = categories.Select(c => new SelectListItem
+            {
+                Value = ((int)c).ToString(),
+                Text = L("QualifiedAgencies." + c.ToString())
+            }).ToList();
+
+            ViewData["Categories"] = new SelectList(categorySelectListItems, "Value", "Text");
+            ViewData["Activities"] = new SelectList(activitySelectListItems, "Id", "Name");
+            ViewData["Areas"] = new SelectList(areaSelectListItems, "Id", "Name");
+        }
+
     }
 }

@@ -1,23 +1,23 @@
-﻿@using QualifiedAgencies.Common;
-@{
-    Category? category = ViewData["category"] as Category?;
-    int? categoryValue = category.HasValue ? (int)category : (int?)null;
+﻿@{
+    @inject QualifiedAgencies.Lookups.ILookupsAppService _ILookupsAppService;
+    long? activityTypeId = ViewData["ActivityTypeId"] as long?;
+    string activityTypeName = activityTypeId != null ? _ILookupsAppService.GetActivityTypeName(activityTypeId.Value) : L("All");
 }
 <div class="modal fade text-left" id="EntityCreateModal" tabindex="-1" role="dialog" aria-labelledby="EntityCreateModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title" id="myModalLabel35">@L("QualifiedAgencies.CreateNewEntity") -  @(category.HasValue ? L("QualifiedAgencies." + ((Category)ViewData["category"]).ToString()) : "")</h6>
+                <h6 class="modal-title" id="myModalLabel35">@L("QualifiedAgencies.CreateNewEntity") -  @activityTypeName</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="ft-x font-medium-2 text-bold-700"></i></span>
                 </button>
             </div>
             <form name="entityCreateForm" role="form" class="form-horizontal">
-                <input type="hidden" name="category" value="@categoryValue" />
+                <input type="hidden" name="activityTypeId" value="@activityTypeId" />
                 <div class="modal-body">
                     <fieldset class="form-group floating-label-form-group">
                         <label for="name">@L("Name")</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="@L("Name")" required maxlength="32" minlength="2">
+                        <input type="text" class="form-control" name="name" id="name" placeholder="@L("Name")" required minlength="2">
                     </fieldset>
                     <fieldset class="form-group floating-label-form-group">
                         <label for="phoneNumber">@L("PhoneNumber")</label>
@@ -40,9 +40,9 @@
                         </div>
                     </fieldset>
                     <fieldset class="form-group floating-label-form-group">
-                        <label for="activityType">@L("QualifiedAgencies.ActivityType")</label>
+                        <label for="Category">@L("QualifiedAgencies.ActivityType")</label>
                         <div class="form-group">
-                            <select class="form-control" name="activityTypeId" id="activityType" asp-items="@(ViewData["ActivityTypes"] as SelectList)">
+                            <select class="form-control" name="category" id="category" asp-items="@(ViewData["Categories"] as SelectList)">
                             </select>
                         </div>
                     </fieldset>

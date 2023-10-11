@@ -1,4 +1,5 @@
 ﻿using Abp.Domain.Repositories;
+using Abp.Domain.Uow;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -25,18 +26,6 @@ namespace QualifiedAgencies.Lookups
             _AreaRepository = AreaRepository;
         }
 
-        public async Task<List<CustomLookupsDto>> GetActivityTypes()
-        {
-            List<CustomLookupsDto> activityTypes = await _ActivityTypeRepository
-                .GetAll()
-                .Where(x => !x.IsDeleted)
-                .Select(a => new CustomLookupsDto
-                {
-                    Id = a.Id,
-                    Name = a.Name
-                }).ToListAsync();
-            return activityTypes;
-        }
         public async Task<List<CustomLookupsDto>> GetActivities()
         {
             List<CustomLookupsDto> activities = await _ActivityRepository
@@ -60,6 +49,28 @@ namespace QualifiedAgencies.Lookups
                     Name = a.Name
                 }).ToListAsync();
             return areas;
+        }
+        [UnitOfWork(isTransactional: false)]
+        public List<CustomLookupsDto> GetActivityTypes()
+        {
+            List<CustomLookupsDto> activityTypes = _ActivityTypeRepository
+                .GetAll()
+                .Select(a => new CustomLookupsDto
+                {
+                    Id = a.Id,
+                    Name = a.Name
+                }).ToList();
+            return activityTypes;
+        }
+        [UnitOfWork(isTransactional: false)]
+        public string GetActivityTypeName(long activityTypeId)
+        {
+            string activityTypeName = _ActivityTypeRepository
+                .GetAll()
+                .Where(x => x.Id == activityTypeId)
+                .Select(a => a.Name)
+                .FirstOrDefault();
+            return activityTypeName;
         }
     }
 }
