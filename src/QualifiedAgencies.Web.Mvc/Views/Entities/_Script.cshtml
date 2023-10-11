@@ -1,0 +1,191 @@
+﻿@inject Abp.Runtime.Session.IAbpSession _AbpSession
+<script>
+    $(document).ready(function () {
+        getAll();
+    });
+    var dt = null;
+    function getAll() {
+        if (dt == null)
+            dt = $('#tblEntities').DataTable({
+                "serverSide": true,
+                "filter": true,
+                "ordering": true,
+                "processing": true,
+                "language": {
+                    "sProcessing": "جارٍ التحميل...",
+                    "sLengthMenu": "أظهر _MENU_ مدخلات",
+                    "sZeroRecords": "لم يعثر على أية سجلات",
+                    "sInfo": "إظهار _START_ إلى _END_ من أصل _TOTAL_ مدخل",
+                    "sInfoEmpty": "يعرض 0 إلى 0 من أصل 0 سجل",
+                    "sInfoFiltered": "(منتقاة من مجموع _MAX_ مُدخل)",
+                    "sInfoPostFix": "",
+                    "sSearch": "ابحث: ",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "الأول",
+                        "sPrevious": "السابق",
+                        "sNext": "التالي",
+                        "sLast": "الأخير"
+                    }
+                },
+                "ajax": {
+                    "url": "@Url.Action("GetPaged","Entities")",
+                    "type": "POST",
+                    "dataType": "json",
+                    "data": {
+                        category: getCategoryFromUrl
+                    },
+                },
+                "columns": [
+                    { "data": "name", "name": "Name", "autoWidth": true, },
+                    { "data": "activity", "name": "Activity", "autoWidth": true },
+                    { "data": "phoneNumber", "name": "PhoneNumber", "autoWidth": true },
+                    { "data": "email", "name": "Email", "autoWidth": true },
+                    { "data": "fax", "name": "Fax", "autoWidth": true },
+                    { "data": "activityType", "name": "ActivityType", "autoWidth": true },
+                    { "data": "area", "name": "Area", "autoWidth": true },
+                    {
+                        "data": "deletionTime",
+                        "name": "DeletionTime",
+                        "autoWidth": true,
+                        "render": function (data, type, row) {
+                            if (data) {
+                                // Format the deletionTime to a short date format
+                                var deletionTime = new Date(data);
+                                var options = { year: 'numeric', month: 'long', day: 'numeric' };
+                                var formattedDate = deletionTime.toLocaleDateString('ar-eg', options);
+
+                                // Return the formatted date for display
+                                return formattedDate;
+                            }
+
+                            // For other types or data, return the original data
+                            return data;
+                        }
+                    },
+                    {
+                        "visible": '@User.Identity.IsAuthenticated' == 'True' ? true : false,
+                        "render": function (data, type, row) {
+                            var deleteBtn = '', editBtn = '';
+    @if (User.Identity.IsAuthenticated)
+    {
+        @:editBtn = '<a href="#" class="success" onclick="editItem(' + row.id + ')"><i class="ft-edit font-medium-3"></i></a>';
+        @:deleteBtn = '<a href="#" class="danger" onclick="deleteItem(' + row.id + ')"><i class="ft-trash font-medium-3"></i></a>'
+
+    }
+                                                    return deleteBtn + ' ' + editBtn;
+                        },
+                        "orderable": false,
+                    }
+                ],
+            });
+        else
+            dt.ajax.reload(null, false);
+
+        }
+
+    function deleteItem(id) {
+        Swal.fire({
+            title: '@L("ConfirmDeletion")',
+            text: '@L("AreYouSureDelete")',
+            showCancelButton: true,
+            confirmButtonText: '@L("YesDeleteIt")',
+            cancelButtonText: '@L("Cancel")',
+            onOpen: (popup) => {
+                popup.querySelector('.swal2-warning').style.display = 'flex';
+            }
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "@Url.Action("Delete","Entities")",
+                    type: "POST",
+                    data: { id: id },
+                    success: function (res) {
+                        getAll();
+                        toastr.success(res.result, '@L("Success")');
+                    },
+                    error: function (res) {
+                        toastr.error(res.responseJSON.error.message, '@L("Error")');
+                    }
+                });
+            }
+        });
+    }
+
+    function editItem(id) {
+        $.ajax({
+            url: "@Url.Action("EditModal","Entities")" + "/" + id,
+            type: 'GET',
+            success: function (data) {
+                $('#EntityEditModal .modal-content').html(data);
+                $('#EntityEditModal').modal('show');
+            },
+            error: function (res) {
+                toastr.error(res.responseJSON.error.message, '@L("Error")');
+            }
+        });
+    }
+
+    $('form[name="entityCreateForm"]').submit(function (e) {
+        e.preventDefault();
+        var _$form = $(this);
+        var formData = $(this).serializeArray();
+
+        // Retrieve the deletionTime from the input element
+        var deletionTime = formData.find(x => x.name === 'deletionTime').value();
+
+        // Format the date to match the format expected by the date input (YYYY-MM-DD)
+        var formattedDeletionTime = deletionTime ? new Date(deletionTime).toISOString().split('T')[0] : null;
+
+        // Add the formatted deletionTime to the formData
+        formData.push({ name: "deletionTime", value: formattedDeletionTime });
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Create","Entities")",
+            data: formData,
+            success: function (res) {
+                abp.ui.clearBusy(_$form);
+                toastr.success(res.result, '@L("Success")');
+                $('#EntityCreateModal').modal('hide');
+                getAll();
+            },
+            error: function (res) {
+                toastr.error(res.responseJSON.error.message, '@L("Error")');
+            }
+        });
+    });
+
+    function update() {
+        var _$form = $('form[name="entityEditForm"]');
+        abp.ui.setBusy(_$form);
+        var formData = _$form.serializeArray();
+        var deletionTimeEntry = formData.find(x => x.name === 'deletionTime');
+        if (deletionTimeEntry && deletionTimeEntry.value) {
+            var parsedDate = new Date(deletionTimeEntry.value);
+            deletionTimeEntry.value = parsedDate.toISOString();
+        }
+        console.log('Updated formData:', formData);
+        //formData.push({ name: "deletionTime", value: parsedDate });
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Update","Entities")",
+            data: formData,
+            success: function (res) {
+                abp.ui.clearBusy(_$form);
+                toastr.success(res.result, '@L("Success")');
+                $('#EntityEditModal').modal('hide');
+                getAll();
+            },
+            error: function (res) {
+                toastr.error(res.responseJSON.error.message, '@L("Error")');
+            }
+        });
+    }
+
+    function getCategoryFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryParam = urlParams.get('category');
+        return categoryParam ? parseInt(categoryParam) : null;
+    }
+</script>

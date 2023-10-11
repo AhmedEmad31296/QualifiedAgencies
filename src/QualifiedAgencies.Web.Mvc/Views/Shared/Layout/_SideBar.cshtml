@@ -1,0 +1,53 @@
+﻿@using QualifiedAgencies.Common;
+@{
+    Category[] categories = (Category[])Enum.GetValues(typeof(Category));
+    int categoriesLength = categories.Length;
+}
+<div class="app-sidebar menu-fixed" data-background-color="success" data-image="img/sidebar-bg/01.jpg" data-scroll-to-active="true">
+    <!-- main menu header-->
+    <!-- Sidebar Header starts-->
+    @await Html.PartialAsync("_SideBar.Logo.cshtml")
+
+    <!-- Sidebar Header Ends-->
+    <!-- / main menu header-->
+    <!-- main menu content-->
+    <div class="sidebar-content main-menu-content">
+        <div class="nav-container">
+            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+                <li class="nav-item">
+                    <a asp-controller="Home" asp-action="Index">
+                        <i class="fa fa-home"></i><span class="menu-title" data-i18n="Home">@L("HomePage")</span>
+                    </a>
+                </li>
+                <li class="has-sub nav-item">
+                    <a href="javascript:;">
+                        <i class="ft-layout"></i><span class="menu-title" data-i18n="Data Tables">@L("QualifiedAgencies")</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li>
+                            <a asp-controller="Entities" asp-action="Index" asp-route-category="">
+                                <i class="ft-arrow-right submenu-icon"></i>
+                                <span class="menu-item">@L("All")</span>
+                            </a>
+                        </li>
+                        @for (int i = 0; i < categoriesLength; i++)
+                        {
+                            <li>
+                                <a asp-controller="Entities" asp-action="Index" asp-route-category="@i">
+                                    <i class="ft-arrow-right submenu-icon"></i>
+                                    <span class="menu-item">@L("QualifiedAgencies." + ((Category)i).ToString())</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- main menu content-->
+    <div class="sidebar-background"></div>
+    <!-- main menu footer-->
+    <!-- include includes/menu-footer-->
+    <!-- main menu footer-->
+    <!-- / main menu-->
+</div>

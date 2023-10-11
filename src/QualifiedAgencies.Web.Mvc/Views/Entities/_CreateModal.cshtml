@@ -1,0 +1,75 @@
+﻿@using QualifiedAgencies.Common;
+@{
+    Category? category = ViewData["category"] as Category?;
+    int? categoryValue = category.HasValue ? (int)category : (int?)null;
+}
+<div class="modal fade text-left" id="EntityCreateModal" tabindex="-1" role="dialog" aria-labelledby="EntityCreateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="myModalLabel35">@L("QualifiedAgencies.CreateNewEntity") -  @(category.HasValue ? L("QualifiedAgencies." + ((Category)ViewData["category"]).ToString()) : "")</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="ft-x font-medium-2 text-bold-700"></i></span>
+                </button>
+            </div>
+            <form name="entityCreateForm" role="form" class="form-horizontal">
+                <input type="hidden" name="category" value="@categoryValue" />
+                <div class="modal-body">
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="name">@L("Name")</label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="@L("Name")" required maxlength="32" minlength="2">
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="phoneNumber">@L("PhoneNumber")</label>
+                        <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="@L("PhoneNumber")" required maxlength="11" minlength="2">
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="email">@L("EmailAddress")</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="@L("EmailAddress")" required maxlength="32" minlength="2">
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="fax">@L("Fax")</label>
+                        <input type="text" class="form-control" name="fax" id="fax" placeholder="@L("Fax")" required maxlength="10">
+                    </fieldset>
+                    <br>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="activity">@L("QualifiedAgencies.Activity")</label>
+                        <div class="form-group">
+                            <select class="form-control" name="activityId" id="activity" asp-items="@(ViewData["Activities"] as SelectList)">
+                            </select>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="activityType">@L("QualifiedAgencies.ActivityType")</label>
+                        <div class="form-group">
+                            <select class="form-control" name="activityTypeId" id="activityType" asp-items="@(ViewData["ActivityTypes"] as SelectList)">
+                            </select>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="area">@L("QualifiedAgencies.Area")</label>
+                        <div class="form-group">
+                            <select class="form-control" name="areaId" id="area" asp-items="@(ViewData["Areas"] as SelectList)">
+                            </select>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label>@L("ExpiryDate")</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <span class="ft-calendar font-medium-2"></span>
+                                </span>
+                            </div>
+                            <input type="date" class="form-control" name="deletionTime" id="deletionTime" placeholder="@L("PickDate")" required>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn bg-light-success">@L("Create")</button>
+                    <button type="reset" class="btn bg-light-secondary" data-dismiss="modal">@L("Cancel")</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

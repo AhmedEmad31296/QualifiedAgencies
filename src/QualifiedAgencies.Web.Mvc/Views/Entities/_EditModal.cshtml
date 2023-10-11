@@ -1,0 +1,68 @@
+﻿@using QualifiedAgencies.Common;
+@using QualifiedAgencies.Entities.Dto;
+@model GetFullInfoEligibleEntityDto
+
+<div class="modal-header">
+    <h6 class="modal-title" id="myModalLabel35">@L("QualifiedAgencies.EditEntity") </h6>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true"><i class="ft-x font-medium-2 text-bold-700"></i></span>
+    </button>
+</div>
+<form name="entityEditForm" role="form" class="form-horizontal" onsubmit="update()">
+    <div class="modal-body">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <fieldset class="form-group floating-label-form-group">
+            <label for="name">@L("Name")</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="@L("Name")" value="@Model.Name" required maxlength="32" minlength="2">
+        </fieldset>
+        <fieldset class="form-group floating-label-form-group">
+            <label for="phoneNumber">@L("PhoneNumber")</label>
+            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="@L("PhoneNumber")" value="@Model.PhoneNumber" required maxlength="11" minlength="2">
+        </fieldset>
+        <fieldset class="form-group floating-label-form-group">
+            <label for="email">@L("EmailAddress")</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="@L("EmailAddress")" value="@Model.Email" required maxlength="32" minlength="2">
+        </fieldset>
+        <fieldset class="form-group floating-label-form-group">
+            <label for="fax">@L("Fax")</label>
+            <input type="text" class="form-control" id="fax" name="fax" placeholder="@L("Fax")" value="@Model.Fax" required maxlength="10">
+        </fieldset>
+        <br>
+        <fieldset class="form-group floating-label-form-group">
+            <label for="activity">@L("QualifiedAgencies.Activity")</label>
+            <div class="form-group">
+                <select class="form-control" id="activity" name="ActivityId" asp-for="ActivityId" asp-items="@(ViewData["Activities"] as SelectList)" required>
+                </select>
+            </div>
+        </fieldset>
+        <fieldset class="form-group floating-label-form-group">
+            <label for="activityType">@L("QualifiedAgencies.ActivityType")</label>
+            <div class="form-group">
+                <select class="form-control" id="activityType" name="ActivityTypeId" asp-for="ActivityTypeId" asp-items="@(ViewData["ActivityTypes"] as SelectList)" required>
+                </select>
+            </div>
+        </fieldset>
+        <fieldset class="form-group floating-label-form-group">
+            <label for="area">@L("QualifiedAgencies.Area")</label>
+            <div class="form-group">
+                <select class="form-control" id="area" name="AreaId" asp-for="AreaId" asp-items="@(ViewData["Areas"] as SelectList)" required>
+                </select>
+            </div>
+        </fieldset>
+        <fieldset class="form-group floating-label-form-group">
+            <label>@L("ExpiryDate")</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <span class="ft-calendar font-medium-2"></span>
+                    </span>
+                </div>
+                <input type="date" class="form-control" name="deletionTime" id="deletionTime" asp-for="DeletionTime" placeholder="@L("PickDate")" required>
+            </div>
+        </fieldset>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn bg-light-success">@L("Save")</button>
+        <button type="reset" class="btn bg-light-secondary" data-dismiss="modal">@L("Cancel")</button>
+    </div>
+</form>
