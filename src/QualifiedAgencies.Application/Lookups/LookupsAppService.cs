@@ -63,7 +63,7 @@ namespace QualifiedAgencies.Lookups
             return activityTypes;
         }
         [UnitOfWork(isTransactional: false)]
-        public string GetActivityTypeName(long activityTypeId)
+        public async Task<string> GetActivityTypeName(long activityTypeId)
         {
             string activityTypeName = _ActivityTypeRepository
                 .GetAll()
