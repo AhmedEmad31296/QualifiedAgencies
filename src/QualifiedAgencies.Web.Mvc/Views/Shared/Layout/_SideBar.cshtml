@@ -35,7 +35,7 @@
                             <li>
                                 <a asp-controller="Entities" asp-action="Index" asp-route-activityTypeId="@activityType.Id">
                                     <i class="ft-arrow-right submenu-icon"></i>
-                                    <span class="menu-item">@activityType.Name</span>
+                                    <span class="menu-item" title="@activityType.Name" style="white-space:pre-line">@activityType.Name</span>
                                 </a>
                             </li>
                         }
