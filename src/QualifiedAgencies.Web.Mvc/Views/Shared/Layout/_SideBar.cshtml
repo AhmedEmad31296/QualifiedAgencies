@@ -1,11 +1,7 @@
 ﻿@using QualifiedAgencies.Common;
+@inject QualifiedAgencies.Lookups.ILookupsAppService _ILookupsAppService
 @{
-    @inject QualifiedAgencies.Lookups.ILookupsAppService _ILookupsAppService
-}
-@{
-    var activityTypes =  _ILookupsAppService.GetActivityTypes();
-    Category[] categories = (Category[])Enum.GetValues(typeof(Category));
-    int categoriesLength = categories.Length;
+    var activityTypes = await _ILookupsAppService.GetActivityTypes();
 }
 <div class="app-sidebar menu-fixed" data-background-color="success" data-image="img/sidebar-bg/01.jpg" data-scroll-to-active="true">
     <!-- main menu header-->

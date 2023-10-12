@@ -14,7 +14,7 @@ namespace QualifiedAgencies.Lookups
     {
         Task<List<CustomLookupsDto>> GetActivities();
         Task<List<CustomLookupsDto>> GetAreas();
-        List<CustomLookupsDto> GetActivityTypes();
-        string GetActivityTypeName(long activityTypeId);
+        Task<List<CustomLookupsDto>> GetActivityTypes();
+        Task<string> GetActivityTypeName(long activityTypeId);
     }
 }

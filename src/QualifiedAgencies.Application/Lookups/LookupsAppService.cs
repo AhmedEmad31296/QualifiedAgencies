@@ -51,7 +51,7 @@ namespace QualifiedAgencies.Lookups
             return areas;
         }
         [UnitOfWork(isTransactional: false)]
-        public List<CustomLookupsDto> GetActivityTypes()
+        public async Task<List<CustomLookupsDto>> GetActivityTypes()
         {
             List<CustomLookupsDto> activityTypes = _ActivityTypeRepository
                 .GetAll()
