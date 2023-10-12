@@ -30,7 +30,7 @@
 	  <text name="FullName" value="الإسم بالكامل" />
 	  <text name="Age" value="العمر" />
 	  <text name="ValidAge" value="الرجاء إدخال عُمر بين 0 و 120 سنة" />
-	  <text name="SelectGender" value="اختر نوع الجنس" />
+	  <text name="Select" value="اختر" />
 	  <text name="Gender" value="النوع" />
 	  <text name="Fax" value="فاكس" />
 	  <text name="Male" value="ذكر" />

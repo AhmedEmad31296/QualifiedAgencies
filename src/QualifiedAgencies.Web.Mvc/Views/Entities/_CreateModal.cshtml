@@ -32,7 +32,7 @@
                     <fieldset class="form-group floating-label-form-group">
                         <label for="activity">@L("QualifiedAgencies.Activity")</label>
                         <div class="form-group">
-                            <select class="form-control" name="activityId" id="activity" asp-items="@(ViewData["Activities"] as SelectList)">
+                            <select class="form-control" name="activityId" id="activity" asp-items="@(ViewData["Activities"] as SelectList)" required>
                             </select>
                         </div>
                     </fieldset>
@@ -40,13 +40,14 @@
                         <label for="Category">@L("QualifiedAgencies.Category")</label>
                         <div class="form-group">
                             <select class="form-control" name="category" id="category" asp-items="@(ViewData["Categories"] as SelectList)">
+                                <option selected disabled>@L("Select")</option>
                             </select>
                         </div>
                     </fieldset>
                     <fieldset class="form-group floating-label-form-group">
                         <label for="area">@L("QualifiedAgencies.Area")</label>
                         <div class="form-group">
-                            <select class="form-control" name="areaId" id="area" asp-items="@(ViewData["Areas"] as SelectList)">
+                            <select class="form-control" name="areaId" id="area" asp-items="@(ViewData["Areas"] as SelectList)" required>
                             </select>
                         </div>
                     </fieldset>

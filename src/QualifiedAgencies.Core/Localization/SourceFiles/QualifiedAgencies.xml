@@ -32,7 +32,7 @@
 	  <text name="ValidAge" value="Please enter a valid age between 0 and 120 year" />
 	  <text name="PhoneNumber" value="Phone Number" />
 	  <text name="PhoneNumberDigit" value="Please enter a 11-digit phone number" />
-	  <text name="SelectGender" value="Select gender" />
+	  <text name="Select" value="Select" />
 	  <text name="Gender" value="Gender" />
 	  <text name="Fax" value="Fax" />
 	  <text name="Male" value="Male" />

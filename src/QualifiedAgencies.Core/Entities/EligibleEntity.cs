@@ -17,7 +17,7 @@ namespace QualifiedAgencies.Entities
     {
         public string Name { get; set; }
        
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
         public string PhoneNumber { get; set; }
         public string Fax { get; set; }
         public string Email { get; set; }

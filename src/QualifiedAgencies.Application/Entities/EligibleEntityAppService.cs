@@ -193,11 +193,11 @@ namespace QualifiedAgencies.Entities
             int totalEntitiesCount = await _EligibleEntityRepository.GetAll().CountAsync(e => !e.IsDeleted);
 
             List<GetCategoryStatisticsDto> statistics = await _EligibleEntityRepository.GetAll()
-                .Where(e => !e.IsDeleted)
+                .Where(e => !e.IsDeleted && e.Category.HasValue)
                 .GroupBy(e => e.Category)
                 .Select(e => new GetCategoryStatisticsDto
                 {
-                    Category = e.Key,
+                    Category = e.Key.Value,
                     Total = e.Count(),
                     Percentage = ((double)e.Count() / totalEntitiesCount) * 100
                 })
@@ -236,6 +236,6 @@ namespace QualifiedAgencies.Entities
                     await _EligibleEntityRepository.UpdateAsync(el);
                 }
         }
-        
+
     }
 }

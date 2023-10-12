@@ -37,7 +37,8 @@
         <fieldset class="form-group floating-label-form-group">
             <label for="category">@L("QualifiedAgencies.Category")</label>
             <div class="form-group">
-                <select class="form-control" id="category" name="category" asp-for="Category" asp-items="@(ViewData["Categories"] as SelectList)" required>
+                <select class="form-control" id="category" name="category" asp-for="Category" asp-items="@(ViewData["Categories"] as SelectList)">
+                    <option selected disabled value="">@L("Select")</option>
                 </select>
             </div>
         </fieldset>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QualifiedAgencies.EntityFrameworkCore;
 
@@ -11,9 +12,10 @@ using QualifiedAgencies.EntityFrameworkCore;
 namespace QualifiedAgencies.Migrations
 {
     [DbContext(typeof(QualifiedAgenciesDbContext))]
-    partial class QualifiedAgenciesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231012233222_13102023_0230")]
+    partial class _13102023_0230
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

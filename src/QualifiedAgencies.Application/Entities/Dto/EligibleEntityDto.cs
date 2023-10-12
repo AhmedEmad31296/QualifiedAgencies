@@ -26,14 +26,14 @@ namespace QualifiedAgencies.Entities.Dto
         public string Fax { get; set; }
         public string Email { get; set; }
         public string Area { get; set; }
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
         public DateTime? DeletionTime { get; set; }
     }
     public class InsertEligibleEntityInput
     {
         public string Name { get; set; }
         public long? ActivityId { get; set; }
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
         public string PhoneNumber { get; set; }
         public string Fax { get; set; }
         public string Email { get; set; }
@@ -51,13 +51,13 @@ namespace QualifiedAgencies.Entities.Dto
         public long? AreaId { get; set; }
         public long? ActivityTypeId { get; set; }
         public DateTime? DeletionTime { get; set; }
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
     }
     public class GetFullInfoEligibleEntityDto : Entity<long>
     {
         public string Name { get; set; }
         public long? ActivityId { get; set; }
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
         public string PhoneNumber { get; set; }
         public string Fax { get; set; }
         public string Email { get; set; }
