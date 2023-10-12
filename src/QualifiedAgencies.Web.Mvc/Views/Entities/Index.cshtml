@@ -1,8 +1,13 @@
-﻿@{
+﻿@using QualifiedAgencies.Lookups.Dto;
+@{
     @inject QualifiedAgencies.Lookups.ILookupsAppService _ILookupsAppService;
     long? activityTypeId = ViewData["ActivityTypeId"] as long?;
-    string activityTypeName = activityTypeId != null ? _ILookupsAppService.GetActivityTypeName(activityTypeId.Value) : L("All");
-
+    string activityTypeName = activityTypeId != null ? await _ILookupsAppService.GetActivityTypeName(activityTypeId.Value) : L("All");
+    CustomLookupsDto activityTypeInfo = new CustomLookupsDto
+            {
+                Id = activityTypeId.GetValueOrDefault(),
+                Name = activityTypeName
+            };
 }
 <div class="row">
     <div class="col-12">
@@ -47,7 +52,7 @@
     </div>
 </div>
 
-@await Html.PartialAsync("~/Views/Entities/_CreateModal.cshtml", ViewData)
+@await Html.PartialAsync("~/Views/Entities/_CreateModal.cshtml", activityTypeInfo,ViewData)
 
 
 <div class="modal fade text-left" id="EntityEditModal" tabindex="-1" role="dialog" aria-labelledby="EntityEditModalLabel" aria-hidden="true">

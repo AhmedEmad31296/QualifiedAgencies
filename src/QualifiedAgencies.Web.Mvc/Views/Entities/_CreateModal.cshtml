@@ -1,19 +1,16 @@
-﻿@{
-    @inject QualifiedAgencies.Lookups.ILookupsAppService _ILookupsAppService;
-    long? activityTypeId = ViewData["ActivityTypeId"] as long?;
-    string activityTypeName = activityTypeId != null ? _ILookupsAppService.GetActivityTypeName(activityTypeId.Value) : L("All");
-}
+﻿@using QualifiedAgencies.Lookups.Dto;
+@model CustomLookupsDto
 <div class="modal fade text-left" id="EntityCreateModal" tabindex="-1" role="dialog" aria-labelledby="EntityCreateModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title" id="myModalLabel35">@L("QualifiedAgencies.CreateNewEntity") -  @activityTypeName</h6>
+                <h6 class="modal-title" id="myModalLabel35">@L("QualifiedAgencies.CreateNewEntity") -  @Model.Name</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="ft-x font-medium-2 text-bold-700"></i></span>
                 </button>
             </div>
             <form name="entityCreateForm" role="form" class="form-horizontal">
-                <input type="hidden" name="activityTypeId" value="@activityTypeId" />
+                <input type="hidden" name="activityTypeId" value="@Model.Id" />
                 <div class="modal-body">
                     <fieldset class="form-group floating-label-form-group">
                         <label for="name">@L("Name")</label>
