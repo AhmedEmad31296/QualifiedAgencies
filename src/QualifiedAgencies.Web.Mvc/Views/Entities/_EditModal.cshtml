@@ -10,6 +10,7 @@
 <form name="entityEditForm" role="form" class="form-horizontal" onsubmit="update()">
     <div class="modal-body">
         <input type="hidden" name="Id" value="@Model.Id" />
+        <input type="hidden" name="activityTypeId" value="@Model.ActivityTypeId" />
         <fieldset class="form-group floating-label-form-group">
             <label for="name">@L("Name")</label>
             <input type="text" class="form-control" id="name" name="name" placeholder="@L("Name")" value="@Model.Name" required minlength="2">
